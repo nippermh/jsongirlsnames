@@ -1,16 +1,24 @@
-const url = 'http://localhost:3000/girls';
+const url = 'http://localhost:3000/girls/';
 
 const form = document.getElementById('addDataForm');
 const dataArea = document.getElementById('dataOutput');
 let output = '';
 const nameValue = document.querySelector('.name');
 const btnSubmit = document.querySelector('.btn-submit');
+
+
 //Get
 fetch(url) 
-  .then((resp) => resp.json())
+  .then(resp => {
+    if (resp.status >= 200 && resp.status <= 299) {
+      return resp.json();
+    }
+    console.log(resp.status, resp.statusText);
+  })
+  //.then((resp) => resp.json())
   //.then((data) => console.log(data))
-  .then(data => renderData(data));
-  
+  .then(data => renderData(data))
+
 const renderData = (girls) => {
   girls.forEach(girl => {
     output += `
@@ -45,6 +53,7 @@ form.addEventListener("submit", (e) => {
       dataArr.push(data);
       renderData(dataArr);
     })
+   
     //reset the input field to empty
     girlName.value = '';
 });
@@ -94,4 +103,7 @@ dataOutput.addEventListener('click', function(event) {
   .then(res => res.json())
   .then(() => location.reload())
   })
-})
+});
+
+
+
