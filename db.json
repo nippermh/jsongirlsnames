@@ -1,12 +1,8 @@
 {
   "girls": [
     {
-      "name": "Christine",
+      "name": "Marni",
       "id": 17
-    },
-    {
-      "name": "Edith Piaf",
-      "id": 19
     },
     {
       "name": "Shiori Skyler Hallam",
@@ -37,10 +33,6 @@
       "id": 27
     },
     {
-      "name": "Amelia",
-      "id": 28
-    },
-    {
       "name": "Isla",
       "id": 29
     },
@@ -49,11 +41,7 @@
       "id": 30
     },
     {
-      "name": "Ava",
-      "id": 31
-    },
-    {
-      "name": "Grace",
+      "name": "Grace Jessup",
       "id": 32
     },
     {
@@ -63,10 +51,6 @@
     {
       "name": "Harper",
       "id": 34
-    },
-    {
-      "name": "Chloe",
-      "id": 35
     },
     {
       "name": "Hazel",
@@ -89,12 +73,28 @@
       "id": 40
     },
     {
-      "name": "Aria",
-      "id": 41
-    },
-    {
       "name": "Sarah",
       "id": 42
+    },
+    {
+      "name": "Tera",
+      "id": 44
+    },
+    {
+      "name": "Tina",
+      "id": 45
+    },
+    {
+      "name": "test",
+      "id": 46
+    },
+    {
+      "name": "Apple",
+      "id": 47
+    },
+    {
+      "name": "Zoe",
+      "id": 48
     }
   ]
 }

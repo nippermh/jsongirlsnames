@@ -1,1 +1,49 @@
 http://localhost:3000/players/?_limit=22
+//THIS CODE IS PROBABLY RUBBISH
+//sort function for objects
+sortBtn.addEventListener("click", function(e) {
+   let sortDescPressed = e.target.className === "descending";
+
+  if(sortDescPressed) {
+    console.log('sortDescending');
+} 
+
+sortAsc.addEventListener("click", function(e) {
+  let sortAscPressed = e.target.className === "ascending";
+ if(sortAscPressed) {
+    console.log('sortAscending');
+};
+
+const sortDescending = (girls) => {
+  //Descending
+    const sortD = girls.sort((a, b) => a.name - b.name);
+    const sortedGirls = girls.sort(sortD);  
+    console.log('got into sort descending');
+    sortedGirls.forEach(girl => {
+    output += `
+   <div class="outer-box" data-id=${girl.id}>
+      <div class="box name">${girl.name}</div>
+      <button class="delete-btn">Delete</button>
+      <button class="edit-btn">Edit</button>
+  </div>
+  `;
+  })
+  dataArea.innerHTML = output;
+}
+const sortAscending = (girls) => {
+//ascending example
+const sortA = girls.sort((a, b) => b.name - a.name);
+console.log(sortA); 
+  const sortedGirls = girls.sort(sortA);
+  console.log('got into sort Ascending');
+  sortedGirls.forEach(girl => {
+  output += `
+ <div class="outer-box" data-id=${girl.id}>
+    <div class="box name">${girl.name}</div>
+    <button class="delete-btn">Delete</button>
+    <button class="edit-btn">Edit</button>
+</div>
+`;
+})
+dataArea.innerHTML = output;
+}

@@ -9,13 +9,20 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <h1>Girl Baby Names</h1>
-        <div class="container">
+        <header class="girlNamesHeader container">
+            <h1>Girl Baby Names</h1>
+        </header>
+        <div class="formWrapper container">
+            <p id="errorElement"></p>
             <form action="" id="addDataForm" class="form-data">
                 <label for="" class="key">Name:</label>
-                <input type="text" id="girlName" class="name" required>
+                <input type="text" id="girlName" class="name">
                 <button type="submit" class="btn-submit btn-primary">Submit</button>
             </form>
+        </div>
+        <div class="btnsContainer container">
+            <button id="sortDescendingtBtn" class="descending">Sort Descending</button>
+            <button id="sortAscendingtBtn" class="descending">Sort Ascending</button>
         </div>
         <div id="dataOutput" class="container">
             
