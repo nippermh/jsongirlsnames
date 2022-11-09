@@ -13,6 +13,9 @@ const sortAscendingtBtn = document.getElementById("sortAscendingtBtn");
 
 let output = "";
 
+fetch(url)
+  .then((response) => response.json())
+  .then((data) => renderData(data));
 
 const renderData = (girls) => {
   
