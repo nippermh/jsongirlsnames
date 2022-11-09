@@ -1,3 +1,9 @@
+//start json server
+//use live server
+
+https://www.youtube.com/watch?v=wf_QR5M4IV4
+
+
 http://localhost:3000/players/?_limit=22
 //THIS CODE IS PROBABLY RUBBISH
 //sort function for objects
