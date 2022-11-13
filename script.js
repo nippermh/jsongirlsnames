@@ -18,7 +18,6 @@ fetch(url)
   .then((data) => renderData(data));
 
 const renderData = (girls) => {
-  
   let output = "";
   //console.log(girls);
   if (girls) {
@@ -26,27 +25,20 @@ const renderData = (girls) => {
     girls.forEach((girl) => {
       output += `
  <div class="outer-box" data-id=${girl.id}>
-    <div class="box name">${girl.name}</div>
+    <div class="box name" style="text-transform: capitalize;"}>${girl.name}</div>
     <button class="delete-btn">Delete</button>
     <button class="edit-btn">Edit</button>
 </div>`;
-  })} else {
-/*  girls.forEach((girl) => {
-    output += `
-<div class="outer-box" data-id=${girl.id}>
-  <div class="box name">${girl.name}</div>
-  <button class="delete-btn">Delete</button>
-  <button class="edit-btn">Edit</button>
-</div>`;
- });  */
-} 
+    });
+  }
 
-   dataArea.innerHTML = output;
+  dataArea.innerHTML = output;
 };
 
 customSort = (a, b) => {
-  const nameA = a.name;
-  const nameB = b.name;
+  // If you do not ignore the cases, sort will misbehave
+  const nameA = a.name.toLowerCase(); // You need to ignore the casings
+  const nameB = b.name.toLowerCase(); // You need to ignore the casings
   if (nameA < nameB) return 1;
   else if (nameA > nameB) return -1;
   return 0;
@@ -55,6 +47,7 @@ customSort = (a, b) => {
 sortDescendingtBtn.addEventListener("click", (girls) => {
   getData(url).then((data) => {
     let a = data.sort(customSort);
+    console.log(a);
     renderData(a);
   });
 });
@@ -77,8 +70,6 @@ const getData = async (url) => {
   return data;
 };
 renderData();
-
-
 
 //Add a girl name
 //POST
@@ -107,22 +98,24 @@ form.addEventListener("submit", (e) => {
 
 //DELETE
 dataOutput.addEventListener("click", function (event) {
+  event.preventDefault();
   let deleteIsPressed = event.target.className === "delete-btn";
   let editIsPressed = event.target.className === "edit-btn";
   let id = event.target.parentElement.dataset.id;
   if (deleteIsPressed) {
     console.log("delete is pressed");
     console.log(id);
-    fetch(url + "/" + id, {
+    fetch(`${url}${id}`, {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then(() => {
-        id.remove();
-      });
+    }).then((res) => {
+      alert(res);
+      if (res.json().ok) {
+        alert("Record deleted successfuly!");
+      } else {
+        alert(res);
+      }
+    });
+
     window.location.reload();
   } else if (editIsPressed) {
     console.log("edit is pressed");
