@@ -1,1 +1,3 @@
+command: json-server --watch db.json
+run live server on the page
 http://localhost:3000/players/?_limit=22
