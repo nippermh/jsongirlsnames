@@ -6,18 +6,17 @@ let output = '';
 const nameValue = document.querySelector('.name');
 const btnSubmit = document.querySelector('.btn-submit');
 
-
-//Get
-fetch(url) 
+// GET
+fetch(url)
   .then(resp => {
-    if (resp.status >= 200 && resp.status <= 299) {
+    if (resp.ok) {
       return resp.json();
+    } else {
+      throw new Error(`HTTP error: ${resp.status} ${resp.statusText}`);
     }
-    console.log(resp.status, resp.statusText);
   })
-  //.then((resp) => resp.json())
-  //.then((data) => console.log(data))
   .then(data => renderData(data))
+  .catch(error => console.log('Fetch error: ', error));
 
 const renderData = (girls) => {
   girls.forEach(girl => {
@@ -28,82 +27,99 @@ const renderData = (girls) => {
       <button class="edit-btn">Edit</button>
   </div>
   `;
-})
+  })
   dataArea.innerHTML = output;
 }
 
-
-//Add a girl name
-//POST
+// POST - Add a girl name
 form.addEventListener("submit", (e) => {
-    e.preventDefault(); 
-        
-    fetch(url, {
-      method: 'POST',
-      headers:{
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: girlName.value
-      })
+  e.preventDefault();
+  const girlName = document.querySelector('.name');
+  
+  if (!girlName.value) {
+    alert("Please enter a name");
+    return;
+  }
+
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: girlName.value
     })
-    .then(res => res.json())
-    .then(data => {
-      const dataArr = [];
-      dataArr.push(data);
-      renderData(dataArr);
-    })
-   
-    //reset the input field to empty
-    girlName.value = '';
+  })
+  .then(res => {
+    if (res.ok) {
+      return res.json();
+    } else {
+      throw new Error(`HTTP error: ${res.status} ${res.statusText}`);
+    }
+  })
+  .then(data => {
+    const dataArr = [];
+    dataArr.push(data);
+    renderData(dataArr);
+  })
+  .catch(error => console.log('POST error: ', error));
+
+  // Reset the input field
+  girlName.value = '';
 });
 
-//DELETE
+// DELETE
 dataOutput.addEventListener('click', function(event) {
-  let deleteIsPressed = event.target.className === "delete-btn"
-  let editIsPressed = event.target.className === "edit-btn"
+  let deleteIsPressed = event.target.className === "delete-btn";
+  let editIsPressed = event.target.className === "edit-btn";
   let id = event.target.parentElement.dataset.id;
-  if(deleteIsPressed) {
-   
-    console.log('delete is pressed')
-    console.log(id)
-    fetch(url + '/' + id, {
+
+  if (deleteIsPressed) {
+    console.log('delete is pressed', id);
+    fetch(`${url}${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
       }
     })
-    .then(res => res.json())
-    .then(() => {
-     id.remove();
-     })
-     window.location.reload();
-  } else if(editIsPressed) {
-
-    console.log('edit is pressed');
-    const parent = event.target.parentElement;
-    //capture the value
-    let girlName = parent.querySelector('.name').textContent;
-    console.log(girlName);
-
-    nameValue.value = girlName;
-  }
-  //update the existing name
-  btnSubmit.addEventListener('click', (e) => {
-    e.preventDefault()
-    fetch(url + '/' + id, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: nameValue.value
-      })
+    .then(res => {
+      if (!res.ok) {
+        throw new Error(`HTTP error: ${res.status} ${res.statusText}`);
+      }
+      return res.json();
     })
-  .then(res => res.json())
-  .then(() => location.reload())
-  })
+    .then(() => {
+      event.target.parentElement.remove();
+    })
+    .catch(error => console.log('DELETE error: ', error));
+  }
+
+  // EDIT
+  else if (editIsPressed) {
+    const parent = event.target.parentElement;
+    let girlName = parent.querySelector('.name').textContent;
+    nameValue.value = girlName;
+
+    // Update the name
+    btnSubmit.addEventListener('click', (e) => {
+      e.preventDefault();
+      fetch(`${url}${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: nameValue.value
+        })
+      })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error: ${res.status} ${res.statusText}`);
+        }
+        return res.json();
+      })
+      .then(() => location.reload())
+      .catch(error => console.log('PATCH error: ', error));
+    });
+  }
 });
-
-
-
